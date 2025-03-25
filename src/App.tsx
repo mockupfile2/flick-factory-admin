@@ -13,8 +13,17 @@ import NotFound from "./pages/NotFound";
 import MovieList from "./pages/MovieList";
 import { useEffect } from "react";
 
-const queryClient = new QueryClient();
+// Create a new QueryClient instance
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      staleTime: 1000 * 60 * 5, // 5 minutes
+    },
+  },
+});
 
+// ScrollToTop component to scroll to top on route changes
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   
@@ -29,17 +38,18 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
-      <Sonner />
+      <Sonner position="top-right" closeButton />
       <BrowserRouter>
+        <ScrollToTop />
         <Navbar />
         <Routes>
-          <Route path="/" element={<><ScrollToTop /><Index /></>} />
-          <Route path="/movies" element={<><ScrollToTop /><MovieList /></>} />
-          <Route path="/movie/:id" element={<><ScrollToTop /><MovieDetail /></>} />
-          <Route path="/admin" element={<><ScrollToTop /><Admin /></>} />
-          <Route path="/admin/movie/add" element={<><ScrollToTop /><AdminMovieForm /></>} />
-          <Route path="/admin/movie/edit/:id" element={<><ScrollToTop /><AdminMovieForm /></>} />
-          <Route path="*" element={<><ScrollToTop /><NotFound /></>} />
+          <Route path="/" element={<Index />} />
+          <Route path="/movies" element={<MovieList />} />
+          <Route path="/movie/:id" element={<MovieDetail />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/movie/add" element={<AdminMovieForm />} />
+          <Route path="/admin/movie/edit/:id" element={<AdminMovieForm />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Menu, X, Film, User, Search as SearchIcon } from 'lucide-react';
+import { Menu, X, Film, User, Search as SearchIcon, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ThemeToggle from './ThemeToggle';
 import SearchBar from './SearchBar';
@@ -51,13 +51,14 @@ const Navbar = () => {
     { title: 'Home', path: '/' },
     { title: 'Movies', path: '/movies' },
     { title: 'New Releases', path: '/movies?sort=latest' },
+    { title: 'Top Rated', path: '/movies?sort=rating' },
   ];
 
   return (
     <nav
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 md:px-8',
-        isScrolled ? 'bg-background/90 backdrop-blur-md py-3 shadow-md' : 'bg-gradient-to-b from-background/80 to-transparent py-5'
+        isScrolled ? 'bg-background/95 backdrop-blur-md py-3 shadow-md' : 'bg-gradient-to-b from-background/80 to-transparent py-5'
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -122,6 +123,12 @@ const Navbar = () => {
                   <span>Admin Panel</span>
                 </Link>
               </DropdownMenuItem>
+              <DropdownMenuItem>
+                <a href="#" className="cursor-pointer flex items-center gap-2">
+                  <Download className="w-4 h-4" />
+                  <span>My Downloads</span>
+                </a>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -182,11 +189,15 @@ const Navbar = () => {
             </div>
             
             <div className="pt-4 mt-4 border-t border-border">
-              <Button asChild className="w-full gap-2 justify-center">
+              <Button asChild className="w-full gap-2 justify-center mb-3">
                 <Link to="/admin">
                   <User className="w-4 h-4" />
                   <span>Admin Panel</span>
                 </Link>
+              </Button>
+              <Button variant="outline" className="w-full gap-2 justify-center">
+                <Download className="w-4 h-4" />
+                <span>My Downloads</span>
               </Button>
             </div>
           </div>
