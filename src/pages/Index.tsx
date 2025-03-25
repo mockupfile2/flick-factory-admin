@@ -14,6 +14,7 @@ const Index = () => {
   const [featuredMovie, setFeaturedMovie] = useState<Movie | null>(null);
   const [recentMovies, setRecentMovies] = useState<Movie[]>([]);
   const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
+  const [trendingMovies, setTrendingMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
     // Simulate loading data
@@ -22,6 +23,7 @@ const Index = () => {
       setFeaturedMovie(mockMovies[0]);
       setRecentMovies(mockMovies.slice(1, 7));
       setPopularMovies(mockMovies.slice(7, 13));
+      setTrendingMovies(mockMovies.slice(3, 9).reverse());
       setLoading(false);
     }, 1500);
 
@@ -49,7 +51,7 @@ const Index = () => {
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-display font-bold">Recent Releases</h2>
           <Button variant="ghost" asChild className="group">
-            <Link to="/movies" className="flex items-center gap-2">
+            <Link to="/movies?sort=latest" className="flex items-center gap-2">
               <span>View All</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
@@ -58,6 +60,25 @@ const Index = () => {
         
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
           {recentMovies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))}
+        </div>
+      </section>
+
+      {/* Trending Now Section */}
+      <section className="mt-16 px-4 md:px-8 max-w-7xl mx-auto">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-display font-bold">Trending Now</h2>
+          <Button variant="ghost" asChild className="group">
+            <Link to="/movies?sort=trending" className="flex items-center gap-2">
+              <span>View All</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </Button>
+        </div>
+        
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
+          {trendingMovies.map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
           ))}
         </div>

@@ -107,7 +107,7 @@
 
   /* Movie card hover effects */
   .movie-card {
-    @apply transition-all duration-300 ease-out hover:scale-[1.03] relative overflow-hidden;
+    @apply transition-all duration-300 ease-out hover:scale-[1.03] relative overflow-hidden shadow-lg hover:shadow-xl;
   }
 
   .movie-card::after {
@@ -120,7 +120,7 @@
 
   /* Loading spinner */
   .loading-spinner {
-    @apply w-10 h-10 rounded-full border-4 border-primary/30 border-t-primary animate-spin-slow;
+    @apply rounded-full border-4 border-primary/30 border-t-primary animate-spin-slow;
   }
 
   /* Custom scrollbar */
@@ -136,20 +136,39 @@
     @apply bg-muted/50 rounded-full hover:bg-muted/70 transition-colors;
   }
 
-  /* Page transitions */
-  .page-transition-enter {
-    @apply opacity-0;
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
-  .page-transition-enter-active {
-    @apply opacity-100 transition-opacity duration-300;
+  @keyframes slideIn {
+    from { transform: translateX(-20px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
   }
 
-  .page-transition-exit {
-    @apply opacity-100;
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
   }
 
-  .page-transition-exit-active {
-    @apply opacity-0 transition-opacity duration-300;
+  @keyframes spin-slow {
+    to { transform: rotate(360deg); }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+
+  .animate-slide-in {
+    animation: slideIn 0.3s ease-out forwards;
+  }
+
+  .animate-pulse-opacity {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-spin-slow {
+    animation: spin-slow 1.5s linear infinite;
   }
 }

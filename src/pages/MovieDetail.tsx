@@ -9,6 +9,7 @@ import LoadingLogo from '@/components/LoadingLogo';
 import MovieCard from '@/components/MovieCard';
 import { Movie } from '@/types/Movie';
 import { mockMovies } from '@/data/mockMovies';
+import { toast } from "@/hooks/use-toast";
 
 const MovieDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -34,6 +35,28 @@ const MovieDetail = () => {
 
     return () => clearTimeout(timer);
   }, [id]);
+
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: movie?.title || 'Movie',
+        text: `Check out ${movie?.title}!`,
+        url: window.location.href
+      }).catch(() => {
+        copyToClipboard();
+      });
+    } else {
+      copyToClipboard();
+    }
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(window.location.href);
+    toast({
+      title: "Link copied!",
+      description: "Movie link copied to clipboard",
+    });
+  };
 
   if (loading || !movie) {
     return (
@@ -167,11 +190,7 @@ const MovieDetail = () => {
               <Button 
                 className="gap-2" 
                 size="lg" 
-                onClick={() => window.navigator.share({ 
-                  title: movie.title,
-                  text: `Check out ${movie.title}!`,
-                  url: window.location.href
-                })}
+                onClick={handleShare}
               >
                 <Share2 className="w-4 h-4" />
                 <span>Share</span>

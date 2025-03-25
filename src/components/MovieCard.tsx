@@ -2,9 +2,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Movie } from '@/types/Movie';
-import { Eye, Download } from 'lucide-react';
+import { Eye, Download, Star } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
+import LoadingLogo from './LoadingLogo';
 
 interface MovieCardProps {
   movie: Movie;
@@ -23,8 +25,8 @@ const MovieCard = ({ movie, className, featured = false }: MovieCardProps) => {
     )}>
       <Link to={`/movie/${movie.id}`} className="block w-full h-full">
         {!imageLoaded && (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-900">
-            <div className="loading-spinner w-8 h-8" />
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-900 z-20">
+            <LoadingLogo size="sm" />
           </div>
         )}
         <img
@@ -39,7 +41,7 @@ const MovieCard = ({ movie, className, featured = false }: MovieCardProps) => {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10" />
         
-        <div className="absolute bottom-0 left-0 right-0 p-4 z-20 transform transition-transform duration-300 group-hover:translate-y-0">
+        <div className="absolute bottom-0 left-0 right-0 p-4 z-20 transform transition-transform duration-300 translate-y-0">
           <div className="space-y-1">
             {featured ? (
               <h2 className="text-white text-2xl font-display font-bold tracking-tight line-clamp-1">
@@ -58,6 +60,12 @@ const MovieCard = ({ movie, className, featured = false }: MovieCardProps) => {
               <Badge variant="outline" className="bg-white/10 text-white text-xs">
                 {movie.quality}
               </Badge>
+              {movie.imdbRating && (
+                <div className="flex items-center bg-yellow-500/20 text-yellow-400 text-xs px-1.5 py-0.5 rounded">
+                  <Star className="w-3 h-3 mr-0.5" />
+                  {movie.imdbRating}
+                </div>
+              )}
             </div>
           </div>
           
@@ -74,10 +82,32 @@ const MovieCard = ({ movie, className, featured = false }: MovieCardProps) => {
           </Badge>
         </div>
         
-        <div className="absolute top-3 left-3 z-20 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <Link to={`/movie/${movie.id}`} className="p-1.5 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-colors">
-            <Eye className="w-4 h-4 text-white" />
-          </Link>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-2">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link to={`/movie/${movie.id}`} className="p-3 rounded-full bg-primary hover:bg-primary/90 text-white backdrop-blur-sm transition-colors">
+                  <Eye className="w-5 h-5" />
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>View Details</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link to={`/movie/${movie.id}`} className="p-3 rounded-full bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm transition-colors">
+                  <Download className="w-5 h-5" />
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Download</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </Link>
     </div>

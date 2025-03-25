@@ -5,6 +5,7 @@ import { Movie } from '@/types/Movie';
 import { Play, Download, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import LoadingLogo from './LoadingLogo';
 
 interface FeaturedMovieProps {
   movie: Movie;
@@ -17,7 +18,7 @@ const FeaturedMovie = ({ movie }: FeaturedMovieProps) => {
     <div className="relative w-full aspect-[21/9] overflow-hidden rounded-xl">
       {!imageLoaded && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-900">
-          <div className="loading-spinner" />
+          <LoadingLogo size="lg" />
         </div>
       )}
       
@@ -31,7 +32,7 @@ const FeaturedMovie = ({ movie }: FeaturedMovieProps) => {
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
       
       <div className="absolute bottom-0 left-0 w-full p-6 sm:p-8 md:p-12 z-10">
-        <div className="max-w-3xl animate-slide-up">
+        <div className="max-w-3xl animate-fade-in">
           <div className="flex flex-wrap gap-2 mb-3">
             {movie.genre.map((genre) => (
               <Badge key={genre} variant="secondary" className="bg-white/10 text-white backdrop-blur-sm">

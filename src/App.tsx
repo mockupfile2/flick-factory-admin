@@ -10,6 +10,7 @@ import MovieDetail from "./pages/MovieDetail";
 import Admin from "./pages/Admin";
 import AdminMovieForm from "./pages/AdminMovieForm";
 import NotFound from "./pages/NotFound";
+import MovieList from "./pages/MovieList";
 import { useEffect } from "react";
 
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ const App = () => (
         <Navbar />
         <Routes>
           <Route path="/" element={<><ScrollToTop /><Index /></>} />
+          <Route path="/movies" element={<><ScrollToTop /><MovieList /></>} />
           <Route path="/movie/:id" element={<><ScrollToTop /><MovieDetail /></>} />
           <Route path="/admin" element={<><ScrollToTop /><Admin /></>} />
           <Route path="/admin/movie/add" element={<><ScrollToTop /><AdminMovieForm /></>} />
